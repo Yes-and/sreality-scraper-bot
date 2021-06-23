@@ -90,13 +90,17 @@ class ScrapeBot():
 
     def openTab(self):
         self.driver.execute_script("window.open('');")
-        window = self.driver.window_handles[1]
-        self.driver.switch_to.window(window)
         time.sleep(1)
 
     def closeTab(self):
         self.driver.close()
         time.sleep(1)
+
+    def switchMain(self):
+        self.driver.switch_to.window(self.driver.window_handles[0])
+
+    def switchSecondary(self):
+        self.driver.switch_to_window(self.driver.window_handles[1])
 
     def getContents(self):
 
@@ -178,6 +182,8 @@ class ScrapeBot():
             current = startpg
             pages = self.getRemainPag()
 
+            self.openTab()
+
             while current < pages:
 
                 print("Current pg: " + str(current) + " out of " + str(pages))
@@ -215,10 +221,10 @@ class ScrapeBot():
                     temp_dict["ID"] = temp_id
 
                     # Open a new tab, load link and extract info and close tab
-                    self.openTab()
+                    self.switchSecondary()
                     self.driver.get(temp_link)
                     temp_dict.update(self.getContents())
-                    self.closeTab()
+                    self.switchMain()
 
                     # Add data to dataframe
                     self.temp_df = self.temp_df.append(temp_dict, ignore_index = True)
@@ -228,6 +234,8 @@ class ScrapeBot():
                 if temp_pages != pages:
                     pages = temp_pages
                 current += 1
+
+            self.closeTab()
 
             self.endDriver()
             print("All done!")
