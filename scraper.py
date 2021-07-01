@@ -57,17 +57,6 @@ class ScrapeBot():
     # Probably not needed, makes the code more bulletproof
     def getListings(self, curr_link):
         if self.active:
-            # try:
-            #     time.sleep(3)
-            #     content = self.driver.find_element_by_class_name("dir-property_list")
-            #     listings = content.find_elements_by_class_name("property")
-            #     return listings
-            # except:
-            #     self.endDriver()
-            #     self.url = curr_link
-            #     self.startDriver(False)
-            #     time.sleep(10)
-            #     return self.getListings(curr_link)
 
             time.sleep(3)
             content = self.driver.find_element_by_class_name("dir-property-list")
@@ -204,7 +193,7 @@ class ScrapeBot():
 
                 for i in range(start, len_list-1):
 
-                    print("current listing: " + str(i) + " out of " + str(len_list-1))
+                    # print("current listing: " + str(i) + " out of " + str(len_list-1))
 
                     # Decrease the chance of detection
                     wait = random.uniform(0, 3)
